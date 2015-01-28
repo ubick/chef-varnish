@@ -106,6 +106,7 @@ DAEMON_OPTS="-a ${VARNISH_LISTEN_ADDRESS}:${VARNISH_LISTEN_PORT} \
           -u varnish -g varnish \
           -S ${VARNISH_SECRET_FILE} \
           -s ${VARNISH_STORAGE}"
+          <%= (node['varnish']['custom_parameters'] || []).map { |p| "-p '#{p}'" }.join("\n") %>
 
 
 ## Alternative 4, Do It Yourself. See varnishd(1) for more information.
