@@ -110,7 +110,9 @@ DAEMON_OPTS="-a ${VARNISH_LISTEN_ADDRESS}:${VARNISH_LISTEN_PORT} \
              <% if node['varnish']['GeoIP_enabled'] %>
                  -p 'cc_command=exec cc -fpic -shared -Wl,-x -L/usr/local/lib -lGeoIP -o %o %s' \
              <% end %>
-             <%= (node['varnish']['custom_parameters'] || []).map { |p| "-p #{Shellwords.escape(p)}" }.join("\n") %>
+             <%= (node['varnish']['custom_parameters'] || []).map { |param_key => param_value|
+                 "-p #{Shellwords.escape(param_key)}=#{Shellwords.escape(param_value)}" }.join("\n") 
+             %>
              -s ${VARNISH_STORAGE}"
 #
 
